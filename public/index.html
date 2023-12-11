@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Tag de viewport para dispositivos móviles -->
     <title>Acortador de URLs de Brote</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -9,34 +10,95 @@
     <style>
         body {
             background-color: #57a7b0;
+            font-family: 'Arial', sans-serif;
         }
         #logoBrote {
-            max-width: 100px;
-            opacity: 0.5;
+            max-width: 80px; /* Tamaño del logo */
+            opacity: 0.8;
+            margin-bottom: 20px;
         }
-        .hidden {
-            display: none;
+        .container {
+            width: 100%;
+            max-width: 400px; /* Ancho máximo para dispositivos grandes */
+            padding: 20px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
         }
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 0 10px;
+            }
+        }
+        img#logoBrote {
+    margin: 0 auto;
+    position: absolute;
+    top: -150px;
+    max-width: 200px;
+    left: 25%;
+}
+
+.container {
+    position: relative;
+}
+
+img#logoBrote {}
+
+.container > .flex.items-center {
+    text-align: center;
+    display: block;
+    padding: 0.5em;
+    background-color: #f63b93;
+    border-radius: 0.2em;
+    color: white;
+    margin-bottom: 0.3em;
+    font-weight: bold;
+}
+
+input#toggleAdvanced {
+}
     </style>
 </head>
 <body class="flex justify-center items-center h-screen">
-    <div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex flex-col items-center space-y-4">
+    <div class="container">
         <img id="logoBrote" src="https://brote.org/img/logowhite.png" alt="Logo Brote">
-        <div class="text-xl font-medium text-black">Acortador de URLs</div>
+        <h1 class="text-xl font-medium text-black">Acortador de URLs</h1>
         <p class="text-gray-500">Ingresa tu URL para acortar</p>
-        <input type="text" id="urlInput" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="https://www.ejemplo.com">
-        <div class="flex items-center">
-            <label for="toggleAdvanced" class="mr-2">Avanzado:</label>
-            <input type="checkbox" id="toggleAdvanced" class="toggle-checkbox">
+       
+            <input type="text" id="urlInput" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="https://www.ejemplo.com">
+            <div class="flex items-center">
+                <label for="toggleAdvanced" class="mr-2">Avanzado:</label>
+                <input type="checkbox" id="toggleAdvanced" class="toggle-checkbox">
+            </div>
+            <div id="advancedOptions" class="hidden flex flex-col w-full space-y-2">
+                <input type="text" id="utmSource" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="UTM Source">
+                <input type="text" id="utmMedium" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="UTM Medium">
+                <input type="text" id="utmCampaign" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="UTM Campaign">
+            </div>
+            <button id="submitButton" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Acortar URL</button>
         </div>
-        <div id="advancedOptions" class="hidden flex flex-col w-full space-y-2">
-            <input type="text" id="utmSource" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="UTM Source">
-            <input type="text" id="utmMedium" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="UTM Medium">
-            <input type="text" id="utmCampaign" class="form-input block w-full rounded-md border-gray-300 shadow-sm" placeholder="UTM Campaign">
-        </div>
-        <button id="submitButton" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Acortar URL</button>
     </div>
-
     <script>
         $(document).ready(function() {
             $('#toggleAdvanced').change(function() {
@@ -58,7 +120,7 @@
     
                 // AJAX request
                 $.ajax({
-                    url: 'http://localhost:8085/acortar',
+                    url: '/acortar',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({ url: url }),
