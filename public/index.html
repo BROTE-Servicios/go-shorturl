@@ -76,8 +76,86 @@ img#logoBrote {}
     font-weight: bold;
 }
 
-input#toggleAdvanced {
+.footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #f7fafc;
+            color: #4a5568;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .footer a {
+            color: #4a5568;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #2c5282;
+        }
+        
+.footer {
+    background-color: #2b656c;
+    color: white;
 }
+.footer a{
+    color:white;
+}
+.footer a:hover{
+    color:#aaa;
+}
+
+input[type="text"], input[type="email"] {
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    padding: 15px;
+    font-size: 16px;
+}
+
+.footer {
+    background-color: #2b656c;
+    color: white;
+    text-align: center;
+    position:fixed;
+    bottom:0;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 0.8rem;
+}
+.footer a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+.footer a:hover {
+    color: #aaa;
+}
+
+
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+.footer img {
+    max-height: 2.5em;
+    filter: saturate(0) brightness(5);
+}
+
+
+.footer {
+    align-items: center;
+}
+
     </style>
 </head>
 <body class="flex justify-center items-center h-screen">
@@ -98,6 +176,14 @@ input#toggleAdvanced {
             </div>
             <button id="submitButton" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Acortar URL</button>
         </div>
+    </div>
+    <div class="footer">
+        <a href="https://qr.brote.org">Generador de QR</a>
+        <a href="https://brote.org">brote.org</a>
+        <a href="https://www.instagram.com/brote.servicios">instagram</a>
+        <a href="https://github.com/BROTE-Servicios">github</a>
+        <a href="https://www.linkedin.com/company/broteservicios/">linkedin</a>
+        <img src="https://www.letscalafate.com/wp-content/uploads/2023/08/des3-1-e1611695211799.png" alt="">
     </div>
     <script>
         $(document).ready(function() {
@@ -135,7 +221,17 @@ input#toggleAdvanced {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 navigator.clipboard.writeText(shortUrl).then(function() {
-                                    Swal.fire('Copiado', 'La URL se ha copiado en el portapapeles', 'success');
+                                    Swal.fire({
+    title: 'Copiado',
+    text: 'La URL se ha copiado en el portapapeles',
+    icon: 'success',
+    footer: '<button id="btnQR" class="swal2-styled swal2-confirm">Generador de QR</button>'
+}).then((result) => {
+    // Configurar el evento de clic del botón después de que se muestra la alerta
+    document.getElementById('btnQR').addEventListener('click', function() {
+        window.location.href = 'https://qr.brote.org';
+    });
+});
                                 }, function(err) {
                                     Swal.fire('Error', 'No se pudo copiar la URL', 'error');
                                 });

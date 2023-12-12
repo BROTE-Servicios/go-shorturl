@@ -8,7 +8,7 @@ import (
     "log"
     "net/http"
     "os"
-    "strings"
+    //"strings"
 
     "github.com/gin-gonic/gin"
     _ "github.com/mattn/go-sqlite3"
@@ -168,10 +168,11 @@ func main() {
             return
         }
 
-        if !strings.Contains(urlOriginal, "brote") {
-            c.JSON(http.StatusNotFound, gin.H{"mensaje": "Servicio en desarrollo. Contacto: desarrollo@brote.org"})
-            return
-        }
+		// no hace falta por ahora filtrar lo de BROTE
+        // if !strings.Contains(urlOriginal, "brote") {
+        //     c.JSON(http.StatusNotFound, gin.H{"mensaje": "Servicio en desarrollo. Contacto: desarrollo@brote.org"})
+        //     return
+        // }
 
         c.Redirect(http.StatusMovedPermanently, urlOriginal)
     })
